@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f16">
+<meta name="description" content="Шкала от 0 до 2600 с сохранением прогресса">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<title>2600</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{background:#0b0f16;color:#f8fafc}main{width:min(100%,560px);margin:0 auto;padding:28px 18px 24px}.row{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}.value{font-size:clamp(48px,15vw,82px);line-height:.95;font-weight:800;letter-spacing:-.05em}.max,.percent{color:#94a3b8}.max{font-size:15px;margin-top:8px}.percent{font-size:16px;font-weight:700}.bar{height:38px;border-radius:999px;background:#1e293b;overflow:hidden;border:1px solid #334155}.fill{height:100%;width:0;background:#f8fafc;border-radius:inherit;transition:width .18s ease-out}.labels{display:flex;justify-content:space-between;color:#64748b;font-size:12px;margin:8px 2px 28px}.buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}button{min-height:58px;border:1px solid #334155;border-radius:15px;background:#172033;color:#f8fafc;font:700 18px system-ui;cursor:pointer;-webkit-tap-highlight-color:transparent}button:active{transform:scale(.98);background:#22304a}.reset{width:100%;margin-top:12px;background:transparent;color:#94a3b8;font-size:16px;min-height:52px}@media(min-width:480px){.buttons{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<main>
+<div class="row"><div><div id="value" class="value">0</div><div class="max">из 2600</div></div><div id="percent" class="percent">0%</div></div>
+<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="2600" aria-valuenow="0" aria-label="Прогресс"><div id="fill" class="fill"></div></div>
+<div class="labels"><span>0</span><span>2600</span></div>
+<div class="buttons" aria-label="Добавить">
+<button type="button" data-add="100">+100</button><button type="button" data-add="200">+200</button><button type="button" data-add="300">+300</button><button type="button" data-add="400">+400</button><button type="button" data-add="500">+500</button>
+</div>
+<button id="reset" class="reset" type="button">Сбросить до 0</button>
+</main>
+<script>
+(()=>{const MAX=2600,KEY="scale2600.value",v=document.getElementById("value"),p=document.getElementById("percent"),f=document.getElementById("fill"),b=document.querySelector(".bar");let n=parseInt(localStorage.getItem(KEY)||"0",10);n=Number.isFinite(n)?Math.min(MAX,Math.max(0,n)):0;function render(){localStorage.setItem(KEY,String(n));const q=n/MAX*100;v.textContent=n;p.textContent=Math.round(q)+"%";f.style.width=q+"%";b.setAttribute("aria-valuenow",n)}document.querySelectorAll("[data-add]").forEach(x=>x.addEventListener("click",()=>{n=Math.min(MAX,n+Number(x.dataset.add));render()}));document.getElementById("reset").addEventListener("click",()=>{n=0;render()});if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});render()})();
+</script>
+</body>
+</html>
