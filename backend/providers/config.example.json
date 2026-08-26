@@ -1,0 +1,6 @@
+{
+  "provider": "api-football",
+  "league": 39,
+  "season": 2026,
+  "refresh": "cached"
+}
